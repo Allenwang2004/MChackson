@@ -1,0 +1,25 @@
+service: "service:LgradService"
+description: "hello world"
+labels:
+  owner: 'jeffzhang'
+  project: 'server_lgrad'
+include:
+  - '*.py'
+  - 'karras2019stylegan-bedrooms-256x256_discriminator.pth'
+  - 'LGrad.pth'
+exclude:
+  - '.pixi/'
+python:
+  extra_index_url:
+    - "https://download.pytorch.org/whl/cpu"
+  packages:
+    - "pillow>=9.4.0,<10"
+    - "torch>=2.4.0,<3"
+    - "torchvision>=0.19.0,<0.20"
+    - "opencv-python-headless>=4.8.0,<5"
+    - "pydantic>=2.8.2,<2.9"
+# models:
+#   - 'lgrad_model:20240905'
+docker:
+  distro: debian
+  python_version: "3.11"

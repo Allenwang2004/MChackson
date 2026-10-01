@@ -1,0 +1,13 @@
+requests==2.31.0
+connexion==3.0.0
+connexion[flask]
+connexion[swagger-ui]
+connexion[uvicorn]
+a2wsgi==1.10.6
+fastapi==0.111.0
+pyjwt==2.8.0
+# SSL_Anti-spoofing 推論（torch 由 base image 提供）
+numpy<2
+librosa==0.9.2
+soundfile==0.12.1
+fairseq==0.12.2

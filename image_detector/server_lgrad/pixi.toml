@@ -1,0 +1,19 @@
+[project]
+authors = []
+channels = ["nvidia", "conda-forge", "pytorch"]
+description = "Add a short description here"
+name = "ai_image_detect_server_lgrad"
+platforms = ["linux-64"]
+version = "0.1.0"
+
+[tasks]
+
+[dependencies]
+python = "3.10.*"
+bentoml = ">=1.2.20,<2"
+pillow = ">=9.4.0,<10"
+pytorch = { version = ">=2.4.0,<3", channel = "pytorch" }
+torchvision = { version = ">=0.19.0,<0.20", channel = "pytorch" }
+pytorch-cuda = { version = "12.1.*", channel = "pytorch" }
+opencv = ">=4.8.0,<5"
+pydantic = ">=2.8.2,<3"

@@ -1,3 +1,19 @@
+// 將 /upload 的回應整理成顯示文字
+async function formatResponse(response) {
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error(data.error || response.statusText);
+  }
+  const percent = (p) => (p * 100).toFixed(1) + '%';
+  const lines = [
+    `Verdict: ${data.verdict === 'fake' ? 'Likely fake' : 'Likely real'}`,
+    `Fake probability: ${percent(data.fake_probability)}`
+  ];
+  if (data.details?.audio) lines.push(`  Audio: ${percent(data.details.audio.fake_probability)}`);
+  if (data.details?.frames) lines.push(`  Video frames: ${percent(data.details.frames.fake_probability)}`);
+  return lines.join('\n');
+}
+
 document.getElementById('uploadForm').addEventListener('submit', async function (event) {
   event.preventDefault();
 
@@ -16,18 +32,7 @@ document.getElementById('uploadForm').addEventListener('submit', async function 
       body: formData
     });
 
-    if (!response.ok) {
-      throw new Error('Network response was not ok: ' + response.statusText);
-    }
-
-    const result = await response.json();
-    if(result.message=="Audio file uploaded and processed")
-        document.getElementById('result').textContent = JSON.stringify(result.result.confidence, null, 2)+" "+JSON.stringify(result.result.result, null, 2);
-      else if(result.message=="Image file uploaded and processed")
-        if(result.result[0].output[0]>0.5)
-          document.getElementById('result').textContent = "fake, testing result: "+JSON.stringify(result.result[0].output[0], null, 2);
-        else
-          document.getElementById('result').textContent = "real, testing result: "+JSON.stringify(result.result[0].output[0], null, 2);
+    document.getElementById('result').textContent = await formatResponse(response);
   } catch (error) {
     document.getElementById('result').textContent = 'Error uploading file: ' + error.message;
   }
@@ -114,15 +119,7 @@ navigator.mediaDevices.getUserMedia({
           body: formData
         });
   
-        if (!response.ok) {
-          throw new Error('Network response was not ok: ' + response.statusText);
-        }
-  
-        const result = await response.json();
-        const specificMessage = result.message || 'No message found';
-        const specificResult = result.status_code || 'No result found';
-
-        document.getElementById('result').textContent = `Message: ${specificMessage}, Result: ${specificResult}`;
+        document.getElementById('result').textContent = await formatResponse(response);
       } catch (error) {
         document.getElementById('result').textContent = 'Error uploading recorded audio: ' + error.message;
       }
@@ -131,8 +128,3 @@ navigator.mediaDevices.getUserMedia({
 })
 .catch(error => { console.error('Error accessing the chosen device:', error); });
 
-
-/*<!-- Button to go back to index.html -->*/
-document.getElementById('backButton').addEventListener('click', function() {
-  window.location.href = 'index.html';
-});

@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>Stlite App</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@stlite/mountable@0.63.1/build/stlite.css"
+    />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="https://cdn.jsdelivr.net/npm/@stlite/mountable@0.63.1/build/stlite.js"></script>
+    <script>
+stlite.mount(
+  {
+    requirements: ["requests"], // Packages to install
+    entrypoint: "streamlit_app.py", // The target file of the `streamlit run` command
+    files: {
+      "streamlit_app.py": `
+import json
+
+import streamlit as st
+import requests
+
+
+def inference(image):
+    files = {'img': image}
+    ret = requests.post('http://localhost:3000/inference', files=files)
+    if ret.ok:
+        ret1 = json.loads(ret.text)[0]
+        print(ret1)
+        output = ret1['output']
+        return {'AI': output[0], 'Not AI': 1 - output[0]}
+    else:
+        raise RuntimeError(f'Server error: {ret.text()}')
+
+
+st.title('Web UI')
+col_left, col_right = st.columns(2)
+
+with col_left:
+    with st.container(border=True):
+        image_upload = st.file_uploader("Upload Image", type=['png', 'jpg'])
+        if image_upload is not None:
+            image_preview = st.image(image_upload)
+
+with col_right:
+    with st.container(border=True):
+        st.text('Result')
+        if image_upload is not None:
+            try:
+                result = inference(image_upload)
+
+                cls_name = max(result, key=result.get)
+                st.header(cls_name)
+                st.bar_chart(result, horizontal=True)
+                st.text(str(result))
+            except Exception as ex:
+                st.text(f'Get exception: {ex}')
+        else:
+            st.text("Empty")
+
+`,
+    },
+    streamlitConfig: {
+      // Streamlit configuration
+      "client.toolbarMode": "viewer",
+    },
+  },
+  document.getElementById("root"),
+);
+    </script>
+  </body>
+</html>

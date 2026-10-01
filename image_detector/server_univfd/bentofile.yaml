@@ -1,0 +1,21 @@
+service: "service:UnivfdService"
+labels:
+  owner: 'jeffzhang'
+  project: 'server_univfd'
+include:
+  - '*.py'
+  - 'univfd_model_20240814.onnx'
+exclude:
+  - '.pixi/'
+python:
+  packages:
+    - "onnxruntime>=1.18.1,<2"
+    - "pillow>=10.4.0,<11"
+    - "numpy>=2.0.1,<3"
+    - "pydantic>=2.8.2,<2.9"
+    - "onnx>=1.16.2,<2"
+# models:
+#   - "univfd_model:20240814"
+docker:
+  distro: debian
+  python_version: "3.11"

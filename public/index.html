@@ -16,7 +16,7 @@
       <h2>Upload Image</h2>
       <form id="uploadForm">
         <label for="fileInput">Select an image file:</label>
-        <input type="file" id="fileInput" name="fileInput" accept=".txt,audio/*,.jpg,.jpeg,.png,.giff" required>
+        <input type="file" id="fileInput" name="fileInput" accept="image/*,audio/*,video/*" required>
         <button type="submit">Upload File</button>
       </form>
     </div>
@@ -38,8 +38,6 @@
     <h2>Result</h2>
     <pre id="result"></pre>
   </div>
-
-  <button onclick="window.location.href='result.html'">RESULT</button>
 
   <script src="script.js"></script>
 </body>

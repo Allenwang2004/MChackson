@@ -1,0 +1,12 @@
+[project]
+name = "ai_image_detect_webui"
+version = "0.1.0"
+description = "Add a short description here"
+authors = ["e8035669 <e8035669@gmail.com>"]
+channels = ["conda-forge"]
+platforms = ["linux-64"]
+
+[tasks]
+
+[dependencies]
+gradio = ">=4.41.0,<5"

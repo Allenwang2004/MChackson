@@ -1,0 +1,52 @@
+<html>
+	<head>
+        <!--
+		<script type="module" crossorigin src="https://cdn.jsdelivr.net/npm/@gradio/lite/dist/lite.js"></script>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@gradio/lite/dist/lite.css" />
+        -->
+		<script type="module" crossorigin src="https://gradio-lite-previews.s3.amazonaws.com/30d13ac8a932d53abfd236d3e4e845570480e701/dist/lite.js"></script>
+		<link rel="stylesheet" href="https://gradio-lite-previews.s3.amazonaws.com/30d13ac8a932d53abfd236d3e4e845570480e701/dist/lite.css" />
+	</head>
+	<body>
+		<gradio-lite>
+<gradio-requirements>
+
+</gradio-requirements>
+
+<gradio-file name="app.py" entrypoint>
+
+import json
+import io
+
+import gradio as gr
+import requests
+from PIL import Image
+
+def greet(image):
+    with io.BytesIO() as f:
+        image.save(f, format='png')
+        f.seek(0)
+        files = {'img': f}
+        ret = requests.post('http://localhost:3000/inference', files=files)
+    if ret.ok:
+        ret1 = json.loads(ret.text)[0]
+        print(ret1)
+        output = ret1['output']
+        return {'AI': output[0], 'Not AI': 1 - output[0]}
+    else:
+        return ret.text()
+
+demo = gr.Interface(
+    fn=greet,
+    inputs=[gr.Image(type='pil')],
+    outputs=[gr.Label()],
+)
+
+demo.launch(share=False)
+
+</gradio-file>
+
+		</gradio-lite>
+	</body>
+</html>
+

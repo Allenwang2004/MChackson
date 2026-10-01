@@ -1,0 +1,43 @@
+{
+  "name": "cm-detector",
+  "displayName": "CM Detector",
+  "version": "1.0.0",
+  "description": "Right-click images, audio, and video on any page to check whether they are fake",
+  "private": true,
+  "scripts": {
+    "dev": "plasmo dev",
+    "build": "plasmo build",
+    "package": "plasmo package"
+  },
+  "dependencies": {
+    "plasmo": "0.90.5",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "@types/chrome": "0.0.287",
+    "@types/node": "20.11.5",
+    "@types/react": "18.2.48",
+    "@types/react-dom": "18.2.18",
+    "typescript": "5.3.3"
+  },
+  "manifest": {
+    "permissions": [
+      "contextMenus",
+      "sidePanel",
+      "storage"
+    ],
+    "host_permissions": [
+      "http://localhost:4000/*",
+      "<all_urls>"
+    ],
+    "commands": {
+      "check-media": {
+        "suggested_key": {
+          "default": "Alt+Shift+D"
+        },
+        "description": "Check the media under the mouse pointer"
+      }
+    }
+  }
+}

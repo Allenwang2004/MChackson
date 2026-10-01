@@ -1,2 +1,5 @@
 *.jpg
 *.DS_Store
+
+# 本地測試（OpenAI 替身服務與金鑰）
+local_test/
