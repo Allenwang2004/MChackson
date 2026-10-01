@@ -8,9 +8,9 @@ Built for 2024 MChackathon.
 
 ## Demo
 
-[![Demo video: checking the BuzzFeed Obama deepfake with CM Detector](docs/demo-thumbnail.jpg)](https://screen.studio/share/vhEvPd1a)
+![Demo: checking the BuzzFeed Obama deepfake with CM Detector](docs/demo.gif)
 
-Click the image to watch the demo.
+Full-quality video: [Screen Studio](https://screen.studio/share/vhEvPd1a)
 
 ## How it works
 
